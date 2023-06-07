@@ -8,7 +8,7 @@ class AdminController extends Controller
 {
     public function adminDashboard()
     {
-        return $this->renderView('admin.adminDashboard', [
+        return $this->renderView('admin.index', [
 
         ]);
     }
