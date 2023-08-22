@@ -37,7 +37,11 @@ require __DIR__.'/auth.php';
 
 //Admin Routes
 Route::middleware('auth', 'role:admin')->group(function(){
+
+    //Admin Dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
+
+    //Admin Logout
     Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');
 });
 
@@ -47,3 +51,5 @@ Route::middleware('auth', 'role:agent')->group(function(){
 });
 
 Route::get('/user/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
+
+Route::get('/admin/login', [AdminController::class, 'adminLogin'])->name('admin.login');
