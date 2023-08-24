@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -28,6 +29,13 @@ class AdminController extends Controller
     public function adminLogin()
     {
         return view('admin.admin_login');
+    }
+
+    public function adminProfile()
+    {
+        $id = Auth::user()->id;
+        $profile_data = User::find($id);
+        return view('admin.profile', compact('profile_data'));
     }
 
     protected function renderView($view, array $withParams = [])
