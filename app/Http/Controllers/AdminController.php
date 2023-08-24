@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
@@ -36,6 +37,26 @@ class AdminController extends Controller
         $id = Auth::user()->id;
         $profile_data = User::find($id);
         return view('admin.profile', compact('profile_data'));
+    }
+
+    public function adminProfileStore(ProfileUpdateRequest $request)
+    {
+        $id = Auth::user()->id;
+        $data = User::find($id);
+        $data->username = $request->username;
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->phone = $request->phone;
+        $data->address = $request->address;
+
+        $file = $request->file('photo');
+        $filename = date('YmdHi').$file->getClientOriginalName();
+        $file->move(public_path('upload/admin/images'), $filename);
+        $data['photo'] = $filename;
+
+        $data->save();
+
+        return redirect()->back();
     }
 
     protected function renderView($view, array $withParams = [])
