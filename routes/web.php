@@ -41,6 +41,9 @@ Route::middleware('auth', 'role:admin')->group(function(){
     //Admin Dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
 
+    //Admin Profile
+    Route::get('/admin/profile', [AdminController::class, 'adminProfile'])->name('admin.profile');
+
     //Admin Logout
     Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');
 });
