@@ -31,6 +31,9 @@
     <link rel="stylesheet" href="{{ asset('../assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
     <!-- endinject -->
 
+    {{-- Toster --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('../assets/css/demo2/style.css') }}">
     <!-- End layout styles -->
@@ -74,6 +77,31 @@
     <script src="{{ asset('../assets/js/template.js') }}"></script>
     <!-- endinject -->
 
+    {{-- Toster Js --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        @if (Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'info') }}"
+        switch(type){
+        case 'info':
+        toastr.info(" {{ Session::get('message') }} ");
+        break;
+
+        case 'success':
+        toastr.success(" {{ Session::get('message') }} ");
+        break;
+
+        case 'warning':
+        toastr.warning(" {{ Session::get('message') }} ");
+        break;
+
+        case 'error':
+        toastr.error(" {{ Session::get('message') }} ");
+        break;
+        }
+
+        @endif
+    </script>
     <!-- Custom js for this page -->
     <script src="{{ asset('../assets/js/dashboard-dark.js') }}"></script>
     <!-- End custom js for this page -->
