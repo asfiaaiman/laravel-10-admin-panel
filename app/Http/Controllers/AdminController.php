@@ -99,7 +99,7 @@ class AdminController extends Controller
             'alert-type' => 'success'
         );
 
-        return back()->notify()->success('Password updated successfully');
+        return back()->with($notification);
     }
 
     protected function renderView($view, array $withParams = [])
