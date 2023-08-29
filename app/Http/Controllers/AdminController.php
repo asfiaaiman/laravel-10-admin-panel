@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\{
+    PasswordRequest,
+    ProfileUpdateRequest,
+};
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -63,6 +67,39 @@ class AdminController extends Controller
         );
 
         return redirect()->back()->with($notification);
+    }
+
+    public function adminChangePassword()
+    {
+        $id = Auth::user()->id;
+        $profile_data = User::find($id);
+        return view('admin.admin_chnage_password', compact('profile_data'));
+    }
+
+    public function adminUpdatePassword(PasswordRequest $request)
+    {
+        // Match the Old Password
+        if(!Hash::check($request->old_password, auth::user()->password))
+        {
+            $notification = array(
+                'message' => 'Old message does not match',
+                'alert-type' => 'error'
+            );
+
+            return back()->with($notification);
+        }
+
+        // Update the password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        $notification = array(
+            'message' => 'Password Changed Successfully',
+            'alert-type' => 'success'
+        );
+
+        return back()->notify()->success('Password updated successfully');
     }
 
     protected function renderView($view, array $withParams = [])
